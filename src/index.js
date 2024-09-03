@@ -1,35 +1,33 @@
 const express = require("express")
-const barbeiro_controller = require("./controller/barbeiro.js")
+const barbeiro_router = require("./routes/barbeiro.js")
+const barbearia_router = require("./routes/barbearia.js")
+const cliente_router = require("./routes/cliente.js")
+const rede_router = require("./routes/rede.js")
+const usuario_router = require("./routes/usuario.js")
 const app = express()
 const port = 3000
 
-
-
+app.use(express.json())
 
 // barbeiro
 
-app.get("/barbeiro", (req, res) => {
-    res.json(barbeiro_controller.index())
-})
+app.use("/barbeiro", barbeiro_router)
 
-app.get("/barbeiro/:id", (req, res) => {
-    res.json(barbeiro_controller.show(req.params.id))
-})
+// barbearia
 
-app.post("/barbeiro", (req, res) => {
-    const code = barbeiro_controller.store(req.body)
-    res.status(code).json()
-})
+app.use("/barbearia", barbearia_router)
 
-app.put("/barbeiro/:id", (req, res) => {
-    const code = barbeiro_controller.update(req.body, req.params.id)
-    res.status(code).json()
-})
+// cliente
 
-app.delete("/barbeiro/:id", (req, res) => {
-    barbeiro_controller.destroy(req.params.id)
-    res.json()
-})
+app.use("/cliente", cliente_router)
+
+// rede
+
+app.use("/rede", rede_router)
+
+// usuario
+
+app.use("/usuario", usuario_router)
 
 
 app.listen(port, () => {
